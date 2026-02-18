@@ -1,8 +1,8 @@
+let { minify } = require("csso");
 let path = require("path");
+let postcss = require("postcss");
 let { test } = require("uvu");
 let { equal, match } = require("uvu/assert");
-let postcss = require("postcss");
-let { minify } = require("csso");
 
 let nestedImport = require("../");
 

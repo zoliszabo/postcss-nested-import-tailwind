@@ -1,6 +1,6 @@
-const postcss = require("postcss");
-const path = require("path");
 const { readFileSync } = require("fs");
+const path = require("path");
+const postcss = require("postcss");
 const resolve = require("resolve");
 
 module.exports = () => {
@@ -50,7 +50,7 @@ module.exports = () => {
             plugin: pluginName,
             type: "dependency"
           });
-        } catch (error) {
+        } catch {
           throw node.error(`Error reading file: "${id}"`);
         }
       });
