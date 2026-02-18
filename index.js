@@ -2,26 +2,21 @@ const path = require("path");
 const { readFileSync } = require("fs");
 const resolve = require("resolve");
 
-/**
- * @type {import('postcss').PluginCreator}
- */
 module.exports = () => {
+
+  const pluginName = 'postcss-nested-import-tailwind';
+
   return {
-    AtRule: {
-      "nested-import": (node, { result }) => {
-        if (
-          !node.params ||
-          typeof node.params !== "string" ||
-          node.params.length < 3
-        ) {
+    postcssPlugin: pluginName,
+    Once(root, { result }) {
+      root.walkAtRules("nested-import", (node) => {
+        if (!node.params || typeof node.params !== "string" || node.params.length < 3) {
           return;
         }
 
         let id = node.params
           .replace(/^(url\(\s*)?['"]?/, "")
           .replace(/['"]?\s*(\))?$/, "");
-
-        let replacement;
 
         let basedir = process.cwd();
         if (node.source && node.source.input && node.source.input.file) {
@@ -35,26 +30,24 @@ module.exports = () => {
             moduleDirectory: ["web_modules", "node_modules"],
             packageFilter: (pkg) => {
               if (pkg.style) pkg.main = pkg.style;
-              else if (!pkg.main || !/\.css$/.test(pkg.main))
-                pkg.main = "index.css";
+              else if (!pkg.main || !/\.css$/.test(pkg.main)) pkg.main = "index.css";
               return pkg;
             }
           });
 
-          replacement = readFileSync(resolvedPath, "utf8");
+          const replacement = readFileSync(resolvedPath, "utf8");
           result.messages.push({
             file: resolvedPath,
             parent: result.opts.from,
-            plugin: "postcss-nested-import",
+            plugin: pluginName,
             type: "dependency"
           });
+          node.replaceWith(`${node.raws.before}${replacement}`);
         } catch (error) {
           throw node.error(`error reading file:\n${id}`);
         }
-        node.replaceWith(`${node.raws.before}${replacement}`);
-      }
-    },
-    postcssPlugin: "postcss-nested-import"
+      });
+    }
   };
 };
 
