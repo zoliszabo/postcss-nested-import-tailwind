@@ -1,6 +1,6 @@
 {
   "name": "@zoliszabo/postcss-nested-import-tailwind",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "PostCSS plugin for importing other stylesheet source files anywhere in your CSS. With Tailwind support.",
   "keywords": [
     "postcss",
@@ -55,6 +55,7 @@
   "devDependencies": {
     "@logux/eslint-config": "^51.0.1",
     "c8": "^8.0.1",
+    "csso": "^5.0.5",
     "eslint": "^8.46.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard": "^17.1.0",

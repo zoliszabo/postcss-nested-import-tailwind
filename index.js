@@ -13,9 +13,9 @@ module.exports = () => {
         if (
           !node.params ||
           typeof node.params !== "string" ||
-          node.params.length < 3
+          node.params.length < 1
         ) {
-          return;
+          throw node.error("Invalid usage - no param.");
         }
 
         let id = node.params
@@ -51,7 +51,7 @@ module.exports = () => {
             type: "dependency"
           });
         } catch (error) {
-          throw node.error(`Error reading file:\n${id}`);
+          throw node.error(`Error reading file: "${id}"`);
         }
       });
     }
