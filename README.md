@@ -23,8 +23,8 @@ npm install @zoliszabo/postcss-nested-import-tailwind
 ### Basic Setup
 
 ```js
-const postcss = require('postcss');
-const nestedImport = require('@zoliszabo/postcss-nested-import-tailwind');
+const postcss = require("postcss");
+const nestedImport = require("@zoliszabo/postcss-nested-import-tailwind");
 
 postcss([nestedImport()]).process(css);
 ```
@@ -32,42 +32,42 @@ postcss([nestedImport()]).process(css);
 Or in your PostCSS configuration file:
 
 **CommonJS:**
+
 ```js
 // postcss.config.js
 module.exports = {
-  plugins: [
-    require('@zoliszabo/postcss-nested-import-tailwind')
-  ]
+  plugins: [require("@zoliszabo/postcss-nested-import-tailwind")]
 };
 ```
 
 **ESM:**
+
 ```js
 // postcss.config.mjs
-import nestedImport from '@zoliszabo/postcss-nested-import-tailwind';
+import nestedImport from "@zoliszabo/postcss-nested-import-tailwind";
 
 export default {
-  plugins: [
-    nestedImport()
-  ]
+  plugins: [nestedImport()]
 };
 ```
 
 **ESM with plugin map syntax:**
+
 ```js
 // postcss.config.mjs
 export default {
   plugins: {
-    '@zoliszabo/postcss-nested-import-tailwind': {},
-    'tailwindcss/nesting': 'postcss-nesting',
-    tailwindcss: {},
-  },
+    "@zoliszabo/postcss-nested-import-tailwind": {},
+    "tailwindcss/nesting": "postcss-nesting",
+    tailwindcss: {}
+  }
 };
 ```
 
 ### Example
 
 **vendor.css**
+
 ```css
 .vendor {
   background: silver;
@@ -75,6 +75,7 @@ export default {
 ```
 
 **index.css**
+
 ```css
 :global {
   @nested-import './vendor.css';
@@ -82,6 +83,7 @@ export default {
 ```
 
 **Result**
+
 ```css
 :global {
   .vendor {

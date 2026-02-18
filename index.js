@@ -4,14 +4,17 @@ const { readFileSync } = require("fs");
 const resolve = require("resolve");
 
 module.exports = () => {
-
-  const pluginName = 'postcss-nested-import-tailwind';
+  let pluginName = "postcss-nested-import-tailwind";
 
   return {
     postcssPlugin: pluginName,
     Once(root, { result }) {
       root.walkAtRules("nested-import", (node) => {
-        if (!node.params || typeof node.params !== "string" || node.params.length < 3) {
+        if (
+          !node.params ||
+          typeof node.params !== "string" ||
+          node.params.length < 3
+        ) {
           return;
         }
 
@@ -31,13 +34,14 @@ module.exports = () => {
             moduleDirectory: ["web_modules", "node_modules"],
             packageFilter: (pkg) => {
               if (pkg.style) pkg.main = pkg.style;
-              else if (!pkg.main || !/\.css$/.test(pkg.main)) pkg.main = "index.css";
+              else if (!pkg.main || !/\.css$/.test(pkg.main))
+                pkg.main = "index.css";
               return pkg;
             }
           });
 
-          const replacement = readFileSync(resolvedPath, "utf8");
-          const parsed = postcss.parse(replacement, { from: resolvedPath });
+          let replacement = readFileSync(resolvedPath, "utf8");
+          let parsed = postcss.parse(replacement, { from: resolvedPath });
           node.replaceWith(parsed);
 
           result.messages.push({
