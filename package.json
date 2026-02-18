@@ -1,6 +1,6 @@
 {
   "name": "@zoliszabo/postcss-nested-import-tailwind",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "PostCSS plugin for importing other stylesheet source files anywhere in your CSS. With Tailwind support.",
   "keywords": [
     "postcss",

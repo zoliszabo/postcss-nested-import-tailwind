@@ -1,3 +1,4 @@
+const postcss = require("postcss");
 const path = require("path");
 const { readFileSync } = require("fs");
 const resolve = require("resolve");
@@ -36,15 +37,17 @@ module.exports = () => {
           });
 
           const replacement = readFileSync(resolvedPath, "utf8");
+          const parsed = postcss.parse(replacement, { from: resolvedPath });
+          node.replaceWith(parsed);
+
           result.messages.push({
             file: resolvedPath,
             parent: result.opts.from,
             plugin: pluginName,
             type: "dependency"
           });
-          node.replaceWith(`${node.raws.before}${replacement}`);
         } catch (error) {
-          throw node.error(`error reading file:\n${id}`);
+          throw node.error(`Error reading file:\n${id}`);
         }
       });
     }
